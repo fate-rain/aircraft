@@ -1,8 +1,15 @@
 import {useRef} from "react";
 import * as THREE from "three";
 import {useFrame} from "@react-three/fiber";
-import { OrbitControls, useHelper } from '@react-three/drei'
-import { Perf } from 'r3f-perf'
+import {
+    AccumulativeShadows,
+    SoftShadows,
+    BakeShadows,
+    RandomizedLight,
+    OrbitControls,
+    useHelper, ContactShadows
+} from '@react-three/drei'
+import {Perf} from 'r3f-perf'
 
 type Cube = THREE.Mesh<THREE.BufferGeometry<THREE.NormalBufferAttributes>>
 
@@ -20,16 +27,64 @@ function Experience() {
 
     return (
         <>
-            <color args={['ivory']} attach="background" />
+            {/*<BakeShadows />*/}
+            {/*<SoftShadows*/}
+            {/*    frustum={3.75}*/}
+            {/*    size={0.5}*/}
+            {/*    near={9.5}*/}
+            {/*    samples={17}*/}
+            {/*    rings={11}*/}
+            {/*/>*/}
+
+            <color args={['ivory']} attach="background"/>
             {/* fps */}
-            <Perf position="top-left" />
+            <Perf position="top-left"/>
             {/* 控制器 */}
-            <OrbitControls makeDefault />
+            <OrbitControls makeDefault/>
 
             {/* 平行光 */}
-            <directionalLight ref={directionalLight} castShadow position={[1, 2, 3]} intensity={1.5} />
+            <directionalLight
+                ref={directionalLight}
+                position={[1, 2, 3]}
+                intensity={1.5}
+                castShadow
+                shadow-mapSize={[1024, 1024]}
+                shadow-camera-near={1}
+                shadow-camera-far={10}
+                shadow-camera-top={5}
+                shadow-camera-right={5}
+                shadow-camera-bottom={-5}
+                shadow-camera-left={-5}
+            />
             {/* 环境光 */}
-            <ambientLight intensity={2} />
+            <ambientLight intensity={2}/>
+
+            {/*<AccumulativeShadows*/}
+            {/*    position={[0, -0.99, 0]}*/}
+            {/*    scale={10}*/}
+            {/*    color="#316d39"*/}
+            {/*    opacity={0.8}*/}
+            {/*>*/}
+            {/*    <RandomizedLight*/}
+            {/*        amount={8}*/}
+            {/*        radius={1}*/}
+            {/*        ambient={0.5}*/}
+            {/*        intensity={1}*/}
+            {/*        bias={0.001}*/}
+            {/*        position={[1, 2, 3]}*/}
+            {/*    />*/}
+            {/*</AccumulativeShadows>*/}
+
+            <ContactShadows
+                position={ [ 0, -0.99, 0 ] }
+                scale={ 10 }
+                resolution={ 512 }
+                far={ 5 }
+                // color={ color }
+                // opacity={ opacity }
+                // blur={ blur }
+                // frames={ 1 }
+            />
 
             <mesh castShadow position-x={-2}>
                 <sphereGeometry/>
@@ -41,7 +96,7 @@ function Experience() {
                 <meshStandardMaterial color='mediumpurple'/>
             </mesh>
 
-            <mesh receiveShadow position-y={-1} rotation-x={-Math.PI * 0.5} scale={10}>
+            <mesh position-y={-1} rotation-x={-Math.PI * 0.5} scale={10}>
                 <planeGeometry/>
                 <meshStandardMaterial color='greenyellow'/>
             </mesh>
