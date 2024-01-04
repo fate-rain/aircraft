@@ -1,7 +1,18 @@
+import {useRef} from "react";
+import {BufferGeometry, Mesh, NormalBufferAttributes} from "three";
+import {useFrame} from "@react-three/fiber";
 import { OrbitControls } from '@react-three/drei'
 import { Perf } from 'r3f-perf'
 
+type Cube = Mesh<BufferGeometry<NormalBufferAttributes>>
+
 function Experience() {
+    const cube = useRef<Cube>(null)
+
+    useFrame((_, delta) => {
+        if (cube.current) cube.current.rotation.y += delta * 0.2
+    })
+
     return (
         <>
             {/* fps */}
@@ -19,7 +30,7 @@ function Experience() {
                 <meshStandardMaterial color="orange"/>
             </mesh>
 
-            <mesh rotation-y={Math.PI * 0.25} position-x={2} scale={1.5}>
+            <mesh ref={cube} rotation-y={Math.PI * 0.25} position-x={2} scale={1.5}>
                 <boxGeometry/>
                 <meshStandardMaterial color='mediumpurple'/>
             </mesh>
