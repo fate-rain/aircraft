@@ -27,7 +27,7 @@ function Aircraft() {
     const {scrollY} = useScroll()
 
     useMotionValueEvent(scrollY, "change", (latest) => {
-        // console.log("Page scroll: ", latest)
+        console.log("Page scroll: ", latest)
 
         if (aircraft.current) {
             if (latest < 600) {
@@ -40,9 +40,10 @@ function Aircraft() {
                 aircraft.current.rotation.z = rotation.z + Math.sin(latest * 0.0005)
             } else if (latest < 1000) {
                 aircraft.current.rotation.y = rotation.y + Math.sin(latest * 0.001)
-                aircraft.current.rotation.z = rotation.z + Math.sin(latest * 0.0005)
+                aircraft.current.rotation.z = rotation.z + Math.sin(latest * 0.001)
             } else if (latest < 1500) {
-                // nothing
+                // aircraft.current.rotation.y = rotation.y + Math.sin(latest * 0.005)
+                // aircraft.current.rotation.z = rotation.z - Math.sin(latest * 0.005)
             }
         }
     })
