@@ -5,7 +5,10 @@ import {
     OrbitControls,
     useHelper,
     useGLTF,
-    useAnimations
+    useAnimations,
+    TransformControls,
+    Grid,
+    Environment
 } from '@react-three/drei'
 import {Perf} from 'r3f-perf'
 
@@ -26,9 +29,7 @@ function Experience() {
         if (cube.current) cube.current.rotation.y += delta * 0.2
     })
 
-    useEffect(() =>
-    {
-        console.log('animations', animations)
+    useEffect(() => {
         const action = animations.actions['Take 001']
         action?.fadeIn(0.5).play()
 
@@ -39,16 +40,21 @@ function Experience() {
 
     return (
         <>
-            <color args={['ivory']} attach="background"/>
+            {/*环境*/}
+            <Environment files='./environment/venice_sunset_1k.hdr'/>
+            <color args={['#0086CF']} attach="background"/>
             {/* fps */}
             <Perf position="top-left"/>
             {/* 控制器 */}
             <OrbitControls makeDefault/>
+            {/*辅助线*/}
+            <axesHelper args={[2]}/>
+            {/*网格*/}
+            <Grid args={[100, 100]} cellColor="white"/>
 
-            <directionalLight castShadow position={[1, 2, 3]} intensity={1.5}/>
-            <ambientLight intensity={0.5}/>
-
-            <primitive object={model.scene}/>
+            <TransformControls>
+                <primitive object={model.scene} scale={3}/>
+            </TransformControls>
         </>
     )
 }
