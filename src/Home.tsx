@@ -3,6 +3,7 @@ import Header from "./components/Header.tsx";
 import Part1 from "./components/Part1.tsx";
 import Part2 from "./components/Part2.tsx";
 import Part3 from "./components/Part3.tsx";
+import Part4 from "./components/Part4.tsx";
 
 function Home() {
 
@@ -15,6 +16,7 @@ function Home() {
                   <Part1/>
                   <Part2/>
                   <Part3/>
+                  <Part4/>
               </div>
           </div>
       </>
