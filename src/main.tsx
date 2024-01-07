@@ -9,7 +9,7 @@ const root = createRoot(document.getElementById('root')!)
 
 root.render(
     <Canvas
-        shadows={false}
+        shadows
         camera={{
             fov: 45,
             near: 0.1,

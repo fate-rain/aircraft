@@ -1,9 +1,11 @@
-import {useRef} from "react";
+import {useEffect, useRef} from "react";
 import * as THREE from "three";
 import {useFrame} from "@react-three/fiber";
 import {
     OrbitControls,
     useHelper,
+    useGLTF,
+    useAnimations
 } from '@react-three/drei'
 import {Perf} from 'r3f-perf'
 
@@ -12,6 +14,9 @@ type Cube = THREE.Mesh<THREE.BufferGeometry<THREE.NormalBufferAttributes>>
 function Experience() {
     const cube = useRef<Cube>(null)
     const directionalLight = useRef<THREE.DirectionalLight>(null)
+    const model = useGLTF('./models/aircraft.glb')
+
+    const animations = useAnimations(model.animations, model.scene)
 
     // 灯光助手
     // @ts-ignore
@@ -20,6 +25,17 @@ function Experience() {
     useFrame((_, delta) => {
         if (cube.current) cube.current.rotation.y += delta * 0.2
     })
+
+    useEffect(() =>
+    {
+        console.log('animations', animations)
+        const action = animations.actions['Take 001']
+        action?.fadeIn(0.5).play()
+
+        return () => {
+            action?.fadeOut(0.5)
+        }
+    }, [animations])
 
     return (
         <>
@@ -32,10 +48,7 @@ function Experience() {
             <directionalLight castShadow position={[1, 2, 3]} intensity={1.5}/>
             <ambientLight intensity={0.5}/>
 
-            <mesh receiveShadow position-y={-1} rotation-x={-Math.PI * 0.5} scale={10}>
-                <planeGeometry/>
-                <meshStandardMaterial color="greenyellow"/>
-            </mesh>
+            <primitive object={model.scene}/>
         </>
     )
 }
