@@ -1,6 +1,6 @@
 import {Canvas} from "@react-three/fiber";
 import {
-    OrbitControls,
+    // OrbitControls,
     Grid,
     Environment
 } from '@react-three/drei'
@@ -25,9 +25,9 @@ function Scene() {
                 <Environment files='./environment/venice_sunset_1k.hdr'/>
                 <color args={['#0086CF']} attach="background"/>
                 {/* fps */}
-                <Perf position="top-left"/>
+                <Perf position="bottom-right"/>
                 {/* 控制器 */}
-                <OrbitControls makeDefault/>
+                {/*<OrbitControls makeDefault/>*/}
                 {/*辅助线*/}
                 <axesHelper args={[2]}/>
                 {/*网格*/}
