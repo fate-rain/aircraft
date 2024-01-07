@@ -9,6 +9,7 @@ function Home() {
         <Header/>
         <CcDesign/>
         <Part1/>
+        <Part1/>
     </>
   )
 }
