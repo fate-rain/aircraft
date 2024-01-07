@@ -3,7 +3,7 @@ import './index.css'
 import {createRoot} from 'react-dom/client'
 import {Canvas} from '@react-three/fiber'
 
-import Experience from "./Experience.tsx";
+import Scene from "./Scene.tsx";
 
 const root = createRoot(document.getElementById('root')!)
 
@@ -17,6 +17,6 @@ root.render(
             position: [ 0, 3, 6 ]
         }}
     >
-        <Experience />
+        <Scene />
     </Canvas>
 )
