@@ -31,7 +31,7 @@ function Scene() {
                 {/*辅助线*/}
                 <axesHelper args={[2]}/>
                 {/*网格*/}
-                <Grid args={[100, 100]} cellColor="white"/>
+                <Grid args={[100, 100]} rotation={[Math.PI / 2, 0, 0]} cellColor="white"/>
 
                 <Aircraft/>
             </Canvas>
