@@ -1,6 +1,6 @@
 import {Canvas} from "@react-three/fiber";
 import {
-    // OrbitControls,
+    OrbitControls,
     Grid,
     Environment
 } from '@react-three/drei'
@@ -27,11 +27,11 @@ function Scene() {
                 {/* fps */}
                 <Perf position="bottom-right"/>
                 {/* 控制器 */}
-                {/*<OrbitControls makeDefault/>*/}
+                <OrbitControls makeDefault/>
                 {/*辅助线*/}
                 <axesHelper args={[2]}/>
                 {/*网格*/}
-                <Grid args={[100, 100]} rotation={[Math.PI / 2, 0, 0]} cellColor="white"/>
+                <Grid infiniteGrid rotation={[Math.PI / 2, 0, 0]} cellColor="white" />
 
                 <Aircraft/>
             </Canvas>

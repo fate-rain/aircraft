@@ -1,7 +1,11 @@
-import {MutableRefObject, useEffect, useRef, useState} from "react";
+import {MutableRefObject, useEffect, useRef} from "react";
 import * as THREE from 'three'
+import {useThree, useFrame} from "@react-three/fiber";
 import {TransformControls, useAnimations, useGLTF} from "@react-three/drei";
 import {useMotionValueEvent, useScroll} from "framer-motion";
+
+import RouteLine from "./components/RouteLine";
+import {curve} from "./utils/catmull.ts";
 
 type Primitive = THREE.Object3D<THREE.Object3DEventMap>
 
@@ -10,52 +14,47 @@ type Primitive = THREE.Object3D<THREE.Object3DEventMap>
  */
 function Aircraft() {
     const aircraft = useRef<Primitive>()
-    // const prev = useRef<number>(0)
-    const model = useGLTF('./models/aircraft.glb')
+    const progress = useRef(0)
 
-    const [position] = useState({
-        x: 0,
-        y: -1,
-        z: 0
-    })
-    const [rotation] = useState({
-        x: Math.PI / 10,
-        y: -Math.PI / 6,
-        z: -Math.PI / 20
-    })
+    const {camera} = useThree()
+    const model = useGLTF('./models/aircraft.glb')
     const animations = useAnimations(model.animations, model.scene)
-    const {scrollY} = useScroll()
+    const {scrollYProgress, scrollY} = useScroll()
+
+    useMotionValueEvent(scrollYProgress, "change", (p) => {
+        // console.log("Page scrollYProgress: ", p)
+        progress.current = p
+    })
 
     useMotionValueEvent(scrollY, "change", (latest) => {
-        console.log("Page scroll: ", latest)
-
-        if (aircraft.current) {
-            if (latest < 600) {
-                aircraft.current.position.x = position.x - (Math.sin(latest * 0.001) * 2)
-
-                // rotation
-                const x= rotation.x + Math.sin(latest * 0.001)
-                aircraft.current.rotation.x = x >= Math.PI / 12 ? Math.PI / 12 : x
-                aircraft.current.rotation.y = rotation.y + Math.sin(latest * 0.001)
-                aircraft.current.rotation.z = rotation.z + Math.sin(latest * 0.0005)
-            } else if (latest < 1000) {
-                aircraft.current.rotation.y = rotation.y + Math.sin(latest * 0.001)
-                aircraft.current.rotation.z = rotation.z + Math.sin(latest * 0.001)
-            } else if (latest < 1500) {
-                // aircraft.current.rotation.y = rotation.y + Math.sin(latest * 0.005)
-                // aircraft.current.rotation.z = rotation.z - Math.sin(latest * 0.005)
-            }
-        }
+        console.log("Page scrollY: ", latest)
     })
 
     useEffect(() => {
-        const action = animations.actions['Take 001']
-        action?.fadeIn(0.5).play()
-
-        return () => {
-            action?.fadeOut(0.5)
-        }
+        console.log('animations', animations)
+        // const action = animations.actions['Take 001']
+        // action?.fadeIn(0.5).play()
+        //
+        // return () => {
+        //     action?.fadeOut(0.5)
+        // }
     }, [animations])
+
+    useFrame(() => {
+        const _progress = 0.1 || progress.current;
+        const vector = curve.getPoint(_progress);
+        const tangent = curve.getTangent(_progress);
+        // const tangent1 = curveLine.getTangent(_progress);
+        // 位置向量和切线向量相加即为所需朝向的点向量
+        const lookAtVec = tangent.add(vector);
+
+
+        aircraft.current?.position.set(vector.x, vector.y, vector.z);
+        aircraft.current?.lookAt(lookAtVec);
+        camera.position.y = vector.y;
+        camera.position.z = vector.z + 10;
+        camera.lookAt(new THREE.Vector3(0, vector.y, 0));
+    })
 
     return (
         <>
@@ -67,6 +66,7 @@ function Aircraft() {
                 rotation={[Math.PI / 10, -Math.PI / 6, -Math.PI / 20]}
             />
             <TransformControls object={aircraft as unknown as MutableRefObject<Primitive>}/>
+            <RouteLine/>
         </>
     )
 }
