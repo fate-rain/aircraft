@@ -41,7 +41,7 @@ function Aircraft() {
     }, [animations])
 
     useFrame(() => {
-        const _progress = 0.1 || progress.current;
+        const _progress = progress.current;
         const vector = curve.getPoint(_progress);
         const tangent = curve.getTangent(_progress);
         // const tangent1 = curveLine.getTangent(_progress);
@@ -52,7 +52,7 @@ function Aircraft() {
         aircraft.current?.position.set(vector.x, vector.y, vector.z);
         aircraft.current?.lookAt(lookAtVec);
         camera.position.y = vector.y;
-        camera.position.z = vector.z + 10;
+        // camera.position.z = vector.z + 10;
         camera.lookAt(new THREE.Vector3(0, vector.y, 0));
     })
 
@@ -61,9 +61,8 @@ function Aircraft() {
             <primitive
                 ref={aircraft}
                 object={model.scene}
-                scale={2.3}
-                position={[0, -1, 0]}
-                rotation={[Math.PI / 10, -Math.PI / 6, -Math.PI / 20]}
+                scale={3}
+                position={[0, 0, 0]}
             />
             <TransformControls object={aircraft as unknown as MutableRefObject<Primitive>}/>
             <RouteLine/>

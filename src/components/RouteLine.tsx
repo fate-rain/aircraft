@@ -1,7 +1,7 @@
 import * as THREE from 'three'
 import {useEffect, useRef} from "react";
 
-import {points} from "../utils/catmull.ts";
+import {points} from "../utils/catmull";
 
 function RouteLine() {
     const geometry = useRef<THREE.BufferGeometry<THREE.NormalBufferAttributes>>(null)
