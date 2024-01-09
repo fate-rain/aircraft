@@ -23,7 +23,7 @@ function Scene() {
             >
                 {/*环境*/}
                 <Environment files='./environment/venice_sunset_1k.hdr'/>
-                <color args={['#0086CF']} attach="background"/>
+                {/*<color args={['#0086CF']} attach="background"/>*/}
                 {/* fps */}
                 <Perf position="bottom-right"/>
                 {/* 控制器 */}
