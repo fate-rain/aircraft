@@ -1,7 +1,8 @@
-import * as THREE from 'three'
+import * as THREE from 'three';
 import {type MutableRefObject, useEffect, useRef} from "react";
 import {useFrame, useThree} from "@react-three/fiber";
 import {TransformControls, useAnimations, useGLTF} from "@react-three/drei";
+import {useControls} from 'leva';
 import {gsap} from "gsap";
 import {ScrollTrigger} from "gsap/ScrollTrigger";
 import {useGSAP} from "@gsap/react";
@@ -48,27 +49,31 @@ function Aircraft() {
         tl.to(aircraft.current!.position, {x: -1.6, y: -3.5, z: 1, duration: 2}, 0)
 
         // 2s -> 3s
-        tl.to(aircraft.current!.rotation, {y: Math.PI / 4, z: Math.PI / 4, duration: 1},2)
-        tl.to(aircraft.current!.position, {x: -1, y: -5.5, z: 1.2,  duration: 1},2)
+        tl.to(aircraft.current!.rotation, {y: Math.PI / 4, z: Math.PI / 4, duration: 1}, 2)
+        tl.to(aircraft.current!.position, {x: -1, y: -5.5, z: 1.2, duration: 1}, 2)
 
         // 3s -> 4s
-        tl.to(aircraft.current!.rotation, {y: -Math.PI / 4, z: 2 * Math.PI, duration: 1},3)
-        tl.to(aircraft.current!.position, {x: 2, y: -8, z: -1,  duration: 1},3)
+        tl.to(aircraft.current!.rotation, {y: -Math.PI / 4, z: 2 * Math.PI, duration: 1}, 3)
+        tl.to(aircraft.current!.position, {x: 2, y: -8, z: -1, duration: 1}, 3)
 
         // 4s -> 7s
-        tl.to(aircraft.current!.rotation, {y: Math.PI / 4, duration: 3},4)
-        tl.to(aircraft.current!.position, {x: -2, y: -16, z: 1.2,  duration: 3},4)
+        tl.to(aircraft.current!.rotation, {y: Math.PI / 4, duration: 3}, 4)
+        tl.to(aircraft.current!.position, {x: -2, y: -16, z: 1.2, duration: 3}, 4)
 
         // 7s -> 8s
-        tl.to(aircraft.current!.rotation, {y: Math.PI / 3, z: Math.PI / 10, duration: 1},7)
-        tl.to(aircraft.current!.position, {x: 2, y: -20, z: 1.5,  duration: 1},7)
+        tl.to(aircraft.current!.rotation, {y: Math.PI / 3, z: Math.PI / 10, duration: 1}, 7)
+        tl.to(aircraft.current!.position, {x: 2, y: -20, z: 1.5, duration: 1}, 7)
     });
 
     useFrame(() => {
         const y = aircraft.current!.position.y
         camera.position.y = y + 1.5
         camera.lookAt(new THREE.Vector3(0, y + 1.5, 0))
-    })
+    });
+
+    const {debug} = useControls({
+        debug: false
+    });
 
     return (
         <>
@@ -79,9 +84,13 @@ function Aircraft() {
                 position={[0, -1.5, 0]}
                 rotation={[Math.PI / 10, -Math.PI / 6, -Math.PI / 20]}
             />
-            <TransformControls object={aircraft as unknown as MutableRefObject<Primitive>}/>
+            {debug && (
+                <TransformControls object={aircraft as unknown as MutableRefObject<Primitive>}/>
+            )}
         </>
     )
 }
+
+useGLTF.preload('./models/aircraft.glb')
 
 export default Aircraft

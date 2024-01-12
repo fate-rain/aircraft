@@ -5,10 +5,21 @@ import {
     Environment
 } from '@react-three/drei'
 import {Perf} from 'r3f-perf'
+import {useControls} from "leva";
 
 import Aircraft from "./Aircraft.tsx";
 
 function Scene() {
+    const {debug, environment} = useControls({
+        debug: false,
+        environment: {
+            value: 'venice_sunset_1k',
+            options: {
+                '落日': 'venice_sunset_1k',
+                '火烧云': 'the_sky_is_on_fire_2k'
+            }
+        }
+    })
 
     return (
         <div className="scene">
@@ -22,16 +33,15 @@ function Scene() {
                 }}
             >
                 {/*环境*/}
-                <Environment files='./environment/venice_sunset_1k.hdr'/>
-                {/*<color args={['#0086CF']} attach="background"/>*/}
+                <Environment files={`./environment/${environment}.hdr`}/>
                 {/* fps */}
-                <Perf position="bottom-right"/>
+                {debug && <Perf position="bottom-right"/>}
                 {/* 控制器 */}
-                <OrbitControls makeDefault/>
+                {debug && <OrbitControls makeDefault/>}
                 {/*辅助线*/}
-                <axesHelper args={[2]}/>
+                {debug && <axesHelper args={[2]}/>}
                 {/*网格*/}
-                <Grid infiniteGrid rotation={[Math.PI / 2, 0, 0]} cellColor="white" />
+                {debug && <Grid infiniteGrid rotation={[Math.PI / 2, 0, 0]} cellColor="white"/>}
 
                 <Aircraft/>
             </Canvas>
