@@ -1,11 +1,13 @@
-import {MutableRefObject, useEffect, useRef} from "react";
 import * as THREE from 'three'
-import {useThree, useFrame} from "@react-three/fiber";
+import {type MutableRefObject, useEffect, useRef} from "react";
+import {useFrame, useThree} from "@react-three/fiber";
 import {TransformControls, useAnimations, useGLTF} from "@react-three/drei";
-import {useMotionValueEvent, useScroll} from "framer-motion";
+import {gsap} from "gsap";
+import {ScrollTrigger} from "gsap/ScrollTrigger";
+import {useGSAP} from "@gsap/react";
 
-import RouteLine from "./components/RouteLine";
-import {curve} from "./utils/catmull.ts";
+// https://gsap.com/docs/v3/Plugins/ScrollTrigger/
+gsap.registerPlugin(ScrollTrigger);
 
 type Primitive = THREE.Object3D<THREE.Object3DEventMap>
 
@@ -14,63 +16,58 @@ type Primitive = THREE.Object3D<THREE.Object3DEventMap>
  */
 function Aircraft() {
     const aircraft = useRef<Primitive>()
-    const progress = useRef(0)
 
     const {camera} = useThree()
     const model = useGLTF('./models/aircraft.glb')
     const animations = useAnimations(model.animations, model.scene)
-    const {scrollYProgress, scrollY} = useScroll()
 
-    useMotionValueEvent(scrollYProgress, "change", (p) => {
-        console.log("Page scrollYProgress: ", p)
-        progress.current = p
-    })
-
-    useMotionValueEvent(scrollY, "change", (latest) => {
-        console.log("Page scrollY: ", latest)
-    })
-
+    // 播放模型动画
     useEffect(() => {
-        console.log('animations', animations)
-        // const action = animations.actions['Take 001']
-        // action?.fadeIn(0.5).play()
-        //
-        // return () => {
-        //     action?.fadeOut(0.5)
-        // }
+        const action = animations.actions['Take 001']
+
+        // 淡入
+        action?.fadeIn(0.5).play()
+
+        return () => {
+            // 淡出
+            action?.fadeOut(0.5)
+        }
     }, [animations])
 
-    useFrame(() => {
-        const _progress = progress.current;
-        const vector = curve.getPoint(_progress);
-        // const tangent = curve.getTangent(_progress);
-        // const tangent1 = curveLine.getTangent(_progress);
-        // 位置向量和切线向量相加即为所需朝向的点向量
-        // const lookAtVec = tangent.add(vector);
-
-        const rotationY = -Math.PI / 6 + Math.PI * _progress * 1.5;
-        let rotationZ = -Math.PI / 20;
-
-        if (_progress < 0.274) {
-            rotationZ = rotationZ + Math.PI * _progress * 0.7;
-        } else if (_progress > 0.274) {
-            rotationZ = rotationZ + Math.PI * _progress * 1.5;
-        }
-
-        if (aircraft.current) {
-            // console.log('vector', vector)
-            aircraft.current.position.set(vector.x, vector.y, vector.z);
-            // Math.PI / 10, rotationY, rotationZ
-            aircraft.current.rotation.x = Math.PI / 10
-            if (_progress < 0.274) {
-                aircraft.current.rotation.y = rotationY
+    useGSAP(() => {
+        // 时间线：https://gsap.com/docs/v3/GSAP/Timeline
+        const tl = gsap.timeline({
+            duration: 8,
+            scrollTrigger: {
+                scrub: 0.5
             }
-            aircraft.current.rotation.z = rotationZ
-            // // aircraft.current?.lookAt(lookAtVec);
-            camera.position.y = vector.y + 1.5;
-            // // camera.position.z = vector.z + 10;
-            camera.lookAt(new THREE.Vector3(0, vector.y + 1.5, 0));
-        }
+        });
+
+        // 0s -> 2s
+        tl.to(aircraft.current!.rotation, {y: 0, z: 0, duration: 2}, 0)
+        tl.to(aircraft.current!.position, {x: -1.6, y: -3.5, z: 1, duration: 2}, 0)
+
+        // 2s -> 3s
+        tl.to(aircraft.current!.rotation, {y: Math.PI / 4, z: Math.PI / 4, duration: 1},2)
+        tl.to(aircraft.current!.position, {x: -1, y: -5.5, z: 1.2,  duration: 1},2)
+
+        // 3s -> 4s
+        tl.to(aircraft.current!.rotation, {y: -Math.PI / 4, z: 2 * Math.PI, duration: 1},3)
+        tl.to(aircraft.current!.position, {x: 2, y: -8, z: -1,  duration: 1},3)
+
+        // 4s -> 7s
+        tl.to(aircraft.current!.rotation, {y: Math.PI / 4, duration: 3},4)
+        tl.to(aircraft.current!.position, {x: -2, y: -16, z: 1.2,  duration: 3},4)
+
+        // 7s -> 8s
+        tl.to(aircraft.current!.rotation, {y: Math.PI / 3, z: Math.PI / 10, duration: 1},7)
+        tl.to(aircraft.current!.position, {x: 2, y: -20, z: 1.5,  duration: 1},7)
+    });
+
+    useFrame(() => {
+        const y = aircraft.current!.position.y
+        camera.position.y = y + 1.5
+        camera.lookAt(new THREE.Vector3(0, y + 1.5, 0))
     })
 
     return (
@@ -79,10 +76,10 @@ function Aircraft() {
                 ref={aircraft}
                 object={model.scene}
                 scale={3.5}
+                position={[0, -1.5, 0]}
                 rotation={[Math.PI / 10, -Math.PI / 6, -Math.PI / 20]}
             />
             <TransformControls object={aircraft as unknown as MutableRefObject<Primitive>}/>
-            <RouteLine/>
         </>
     )
 }
