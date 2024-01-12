@@ -22,7 +22,7 @@ function Aircraft() {
     const {scrollYProgress, scrollY} = useScroll()
 
     useMotionValueEvent(scrollYProgress, "change", (p) => {
-        // console.log("Page scrollYProgress: ", p)
+        console.log("Page scrollYProgress: ", p)
         progress.current = p
     })
 
@@ -43,17 +43,34 @@ function Aircraft() {
     useFrame(() => {
         const _progress = progress.current;
         const vector = curve.getPoint(_progress);
-        const tangent = curve.getTangent(_progress);
+        // const tangent = curve.getTangent(_progress);
         // const tangent1 = curveLine.getTangent(_progress);
         // 位置向量和切线向量相加即为所需朝向的点向量
-        const lookAtVec = tangent.add(vector);
+        // const lookAtVec = tangent.add(vector);
 
+        const rotationY = -Math.PI / 6 + Math.PI * _progress * 1.5;
+        let rotationZ = -Math.PI / 20;
 
-        aircraft.current?.position.set(vector.x, vector.y, vector.z);
-        aircraft.current?.lookAt(lookAtVec);
-        camera.position.y = vector.y;
-        // camera.position.z = vector.z + 10;
-        camera.lookAt(new THREE.Vector3(0, vector.y, 0));
+        if (_progress < 0.274) {
+            rotationZ = rotationZ + Math.PI * _progress * 0.7;
+        } else if (_progress > 0.274) {
+            rotationZ = rotationZ + Math.PI * _progress * 1.5;
+        }
+
+        if (aircraft.current) {
+            // console.log('vector', vector)
+            aircraft.current.position.set(vector.x, vector.y, vector.z);
+            // Math.PI / 10, rotationY, rotationZ
+            aircraft.current.rotation.x = Math.PI / 10
+            if (_progress < 0.274) {
+                aircraft.current.rotation.y = rotationY
+            }
+            aircraft.current.rotation.z = rotationZ
+            // // aircraft.current?.lookAt(lookAtVec);
+            camera.position.y = vector.y + 1.5;
+            // // camera.position.z = vector.z + 10;
+            camera.lookAt(new THREE.Vector3(0, vector.y + 1.5, 0));
+        }
     })
 
     return (
@@ -61,8 +78,8 @@ function Aircraft() {
             <primitive
                 ref={aircraft}
                 object={model.scene}
-                scale={3}
-                position={[0, 0, 0]}
+                scale={3.5}
+                rotation={[Math.PI / 10, -Math.PI / 6, -Math.PI / 20]}
             />
             <TransformControls object={aircraft as unknown as MutableRefObject<Primitive>}/>
             <RouteLine/>
