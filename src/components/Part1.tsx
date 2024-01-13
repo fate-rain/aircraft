@@ -2,9 +2,9 @@ import Cloud from "./Cloud.tsx";
 
 function Part1() {
     return (
-        <div className="pt-[230px] flex justify-between">
-            <Cloud className="w-[806px] -translate-x-[117px]"/>
-            <svg className="w-[280px] mr-[100px]" viewBox="0 0 281 140" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <div className="pt-[100px] sm:pt-[230px] flex flex-col sm:flex-row sm:justify-between">
+            <Cloud className="w-[300px] sm:w-[806px] -translate-x-[120px] sm:-translate-x-[117px]"/>
+            <svg className="w-[300px] sm:w-[280px] sm:mr-[100px]" viewBox="0 0 281 140" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path
                     d="M227.358 134.42C227.358 134.127 227.465 133.88 227.678 133.68C227.905 133.467 228.151 133.36 228.418 133.36C228.658 133.36 228.885 133.467 229.098 133.68C229.325 133.88 229.438 134.127 229.438 134.42C229.438 134.74 229.325 135 229.098 135.2C228.885 135.387 228.658 135.48 228.418 135.48C228.151 135.48 227.905 135.387 227.678 135.2C227.465 135 227.358 134.74 227.358 134.42Z"
                     fill="white"/>

@@ -3,12 +3,12 @@ import Cloud from "./Cloud.tsx";
 
 function Part4() {
     return (
-        <div className="mt-[219px] flex flex-col -translate-y-[400px]">
+        <div className="mt-[380px] sm:mt-[219px] flex flex-col -translate-y-[400px]">
             <div className="flex justify-end">
-                <Cloud className="w-[900px] translate-x-[223px]"/>
+                <Cloud className="w-[300px] sm:w-[900px] sm:translate-x-[223px]"/>
             </div>
-            <div className="flex justify-center">
-                <svg width="310" height="183" viewBox="0 0 310 183" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <div className="flex justify-center sm:justify-end sm:mr-[40px]">
+                <svg className="w-[200px] sm:w-[300px]" viewBox="0 0 310 183" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path
                         d="M281.403 89.2781C286.074 90.4834 290.519 92.9694 294.737 96.7361C299.107 100.352 302.647 104.947 305.359 110.522C308.222 116.097 309.653 122.274 309.653 129.054C309.653 145.627 303.702 158.66 291.799 168.152C280.047 177.493 262.57 182.164 239.367 182.164C228.369 182.164 217.37 180.959 206.371 178.548C195.373 175.987 185.579 172.898 176.991 169.282V121.144C186.333 125.212 195.975 128.527 205.919 131.088C216.014 133.649 225.581 134.93 234.621 134.93C240.949 134.93 245.545 133.951 248.407 131.992C251.421 130.033 252.927 126.794 252.927 122.274C252.927 113.535 247.654 109.166 237.107 109.166H220.835V72.1021H233.491C243.435 72.1021 248.407 67.8834 248.407 59.4461C248.407 51.3101 243.435 47.2421 233.491 47.2421C226.259 47.2421 218.726 48.9747 210.891 52.4401C203.057 55.7547 195.448 60.1241 188.065 65.5481L174.731 17.4101C183.922 12.5887 194.393 8.52072 206.145 5.20605C217.897 1.74072 229.725 0.00805664 241.627 0.00805664C262.419 0.00805664 278.39 4.37739 289.539 13.1161C300.689 21.8547 306.263 34.2094 306.263 50.1801C306.263 60.1241 303.928 68.3354 299.257 74.8141C294.587 81.1421 288.635 85.9634 281.403 89.2781Z"
                         fill="#E5D3A3"/>
@@ -17,12 +17,12 @@ function Part4() {
                         fill="#E5D3A3"/>
                 </svg>
             </div>
-            <div className="h-[90px]"/>
-            <div className="flex justify-end mr-[20px]">
-                <div className="h-[70px]"/>
-                <Text1/>
+            <div className="h-[30px] sm:h-[90px]"/>
+            <div className="flex justify-end sm:mr-[20px]">
+                <div className="h-[30px] sm:h-[70px]"/>
+                <Text1 className="w-[300px]"/>
             </div>
-            <Cloud className="w-[500px] -translate-x-[300px]"/>
+            <Cloud className="w-[300px] -translate-x-[100px] sm:w-[500px] sm:-translate-x-[200px]"/>
         </div>
     )
 }

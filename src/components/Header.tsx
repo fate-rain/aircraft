@@ -1,8 +1,8 @@
 function Header() {
     return (
-        <div className="h-[85px]">
-            <div className="fixed z-10 w-full flex justify-between items-center py-[26px] pl-[37px] pr-[60px] bg-[#0086CF] border-b border-white">
-                <svg className="w-[152px]" viewBox="0 0 153 33" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <div className="h-[60px] sm:h-[85px]">
+            <div className="fixed z-10 w-full flex justify-between items-center py-[16px] pl-[17px] pr-[20px] sm:py-[26px] sm:pl-[37px] sm:pr-[60px] bg-[#0086CF] border-b border-white">
+                <svg className="w-[100px] sm:w-[152px]" viewBox="0 0 153 33" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path
                         d="M121.777 25.4401H123.777V7.48013H121.777V0.880127H138.017C142.471 0.880127 146.004 2.10679 148.617 4.56013C151.257 6.98679 152.577 10.9468 152.577 16.4401C152.577 21.9335 151.257 25.9068 148.617 28.3601C146.004 30.7868 142.471 32.0001 138.017 32.0001H121.777V25.4401ZM137.297 25.4401C138.204 25.4401 138.884 25.2001 139.337 24.7201C139.791 24.2401 140.017 23.4935 140.017 22.4801V10.4001C140.017 8.4268 139.111 7.44013 137.297 7.44013H134.977V25.4401H137.297Z"
                         fill="white"/>

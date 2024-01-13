@@ -12,7 +12,7 @@ function Home() {
       <div className="relative">
           <Header/>
           <div className="flex justify-center">
-              <div className="max-w-[1440px]">
+              <div className="max-w-[640px] sm:max-w-[1440px]">
                   <Title/>
                   <Part1/>
                   <Part2/>
