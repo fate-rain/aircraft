@@ -1,6 +1,6 @@
 function Text1({className = ''}: { className?: string }) {
     return (
-        <div className={`w-[572px] mr-[10px] flex flex-col gap-5 sm:gap-[70px] ${className}`}>
+        <div className={`sm:w-[572px] mr-[10px] flex flex-col gap-5 sm:gap-[70px] ${className}`}>
             <svg className="w-full" viewBox="0 0 571 289" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path
                     d="M270.223 283.02C270.223 281.78 270.663 280.74 271.543 279.9C272.463 279.06 273.463 278.64 274.543 278.64C275.543 278.64 276.483 279.06 277.363 279.9C278.283 280.74 278.743 281.78 278.743 283.02C278.743 284.34 278.283 285.4 277.363 286.2C276.483 286.96 275.543 287.34 274.543 287.34C273.463 287.34 272.463 286.96 271.543 286.2C270.663 285.4 270.223 284.34 270.223 283.02Z"
