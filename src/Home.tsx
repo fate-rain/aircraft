@@ -9,7 +9,7 @@ import Footer from "./components/Footer.tsx";
 function Home() {
 
   return (
-      <>
+      <div className="relative">
           <Header/>
           <div className="flex justify-center">
               <div className="max-w-[1440px]">
@@ -21,7 +21,7 @@ function Home() {
               </div>
           </div>
           <Footer/>
-      </>
+      </div>
   )
 }
 
