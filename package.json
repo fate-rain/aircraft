@@ -3,6 +3,16 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "author": {
+    "name": "成雨",
+    "email": "1121352970@qq.com",
+    "url": "https://www.dragon0402.com/"
+  },
+  "keywords": [
+    "threejs",
+    "@react-three/fiber",
+    "gsap"
+  ],
   "scripts": {
     "dev": "vite --host",
     "build": "tsc && vite build",
