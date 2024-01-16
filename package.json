@@ -3,6 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "description": "threejs网页动效",
   "author": {
     "name": "成雨",
     "email": "1121352970@qq.com",
